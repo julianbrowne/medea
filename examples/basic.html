@@ -3,48 +3,12 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Medea: Basic Example</title>
-    <style>
-
-        #example, #source {
-            width: 500px;
-            margin: 50px auto;
-            border: 1px solid #DEDEDE;
-        }
-
-        form {
-            font-family: arial;
-        }
-
-        .form-inline {
-            margin-left: 20px;
-        }
-
-        label { 
-            display: inline-block;
-            width: 150px;
-            padding: 5px;
-            margin: 5px;
-        }
-
-        div.childElement {
-            margin-left: 20px;
-        }
-
-        .buttons {
-            padding: 10px;
-            text-align: right;
-        }
-
-        input {
-            padding: 5px;
-            margin: 5px;
-        }
-
-    </style>
-    <script src="../jquery/jquery-2.1.4.js"></script>
-    <script src="../medea.js"></script>
+    <link rel="stylesheet" media="all" href="../vendor/bootstrap/css/bootstrap.min.css" >
+    <script src="../vendor/jquery/jquery-2.1.4.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../lib/jquery.medea.js"></script>
 </head>
-<body>
+<body class="container">
     <div id="source"></div>
     <div id="example"></div>
     <script>
@@ -64,15 +28,18 @@
                     county: "Shireshire"
                 }
             };
+
             $("#source").html("<pre><code>"+JSON.stringify(object, null, 2)+"</code></pre>");
-            $("#example")
-                .medea(object)
-                .on("shown", function(e) { 
-                    alert("form rendered");
-                })
-                .on("submit", function(newData) { 
-                    alert(JSON.stringify(newData, null, 2));
-                });
+
+            $("#example").medea(object, { removeOnSubmit: true });
+            $("#example").on("shown", function(e) { alert("form rendered"); })
+            $("#example").on("add", function(e, f) { alert("field added: " + JSON.stringify(f, null, 2)) })
+            $("#example").on("remove", function(e, f) { alert("field removed: " + JSON.stringify(f, null, 2)) })
+            $("#example").on("cancel", function(e) { alert("edit cancelled") })
+            $("#example").on("submit", function(e, j) { 
+                var j = JSON.stringify(j, null, 2);
+                console.log(j);
+            });
         });    
     </script>
 </body>

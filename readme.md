@@ -30,4 +30,22 @@ Where `jquery-selector` is the identifier of a target container (e.g. div) on th
         // do something with updated-json-object here ..
     });
 
-That's it.
+## Events
+
+Events emitted:
+
+*   "shown"   - form rendered
+*   "submit"  - form submitted with OK button
+*   "cancel"  - form editing cancelled with cancel button
+*   "add"     - new field added
+*   "remove"  - field deleted
+
+"shown", "submit" and "cancel" events return the JSON object.
+
+## Options
+
+Medea takes a number of options:
+
+    $(selector).medea(object, options);
+
+*   removeOnSubmit - remove the form from the DOM when it's submitted
