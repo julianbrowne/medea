@@ -48,4 +48,6 @@ Medea takes a number of options:
 
     $(selector).medea(object, options);
 
-*   removeOnSubmit - remove the form from the DOM when it's submitted
+options is an object with these fields:
+
+*   removeOnSubmit - true/false: remove the form from the DOM when it's submitted. Default false.
