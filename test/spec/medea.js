@@ -29,17 +29,23 @@ describe("Medea", function() {
     });
 
     it("should convert primitives to fields", function() { 
-        expect($(Medea.primToField(9, "nine")).val()).toEqual("9");
-        expect($(Medea.primToField(9, "nine")).attr("type")).toEqual("number");
-        expect($(Medea.primToField(9, "nine")).attr("name")).toEqual("nine");
+        function makeField(value, name) { 
+            return $(Medea.primToField(value, name)).find("input");
+        };
+        var f = makeField(9, "nine");
+        expect(f.val()).toEqual("9");
+        expect(f.attr("type")).toEqual("number");
+        expect(f.attr("name")).toEqual("nine");
 
-        expect($(Medea.primToField("abc", "str")).val()).toEqual("abc");
-        expect($(Medea.primToField("abc", "str")).attr("type")).toEqual("text");
-        expect($(Medea.primToField("abc", "str")).attr("name")).toEqual("str");
+        var f = makeField("abc", "str");
+        expect(f.val()).toEqual("abc");
+        expect(f.attr("type")).toEqual("text");
+        expect(f.attr("name")).toEqual("str");
 
-        expect($(Medea.primToField(true, "tf")).val()).toEqual("true");
-        expect($(Medea.primToField(true, "tf")).attr("type")).toEqual("checkbox");
-        expect($(Medea.primToField(true, "tf")).attr("name")).toEqual("tf");
+        var f = makeField(true, "tf");
+        expect(f.val()).toEqual("true");
+        expect(f.attr("type")).toEqual("checkbox");
+        expect(f.attr("name")).toEqual("tf");
     });
 
     it("should make a number form", function() { 
@@ -113,10 +119,28 @@ describe("Medea", function() {
     it("should convert form to json", function() { 
         // @todo: extend test with sophisticated forms
         medeaHelper.addTestContainer("test");
-        $("#test").append("<form><input type=\"text\" name=\"iceCream\" data-json-type=\"string\" value=\"99\"></form>");
+        $("#test").html("<form><input type=\"text\" name=\"iceCream\" data-json-type=\"string\" value=\"99\"></form>");
         var obj = Medea.form2object("form");
-        console.log(obj);
         expect(obj).toEqual({ iceCream: '99' });
+        $("#test").html("<form><input type=\"text\" name=\"my.deep.field\" data-json-type=\"string\" value=\"99\"></form>");
+        obj = Medea.form2object("form");
+        expect(obj).toEqual({my:{deep:{field:'99'}}});
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should delete a form field", function() { 
+        medeaHelper.addTestContainer("test");
+        var field = Medea.inputGroup("abc", 99, "text");
+        $("#test").html(field);
+        var input = $("#test").find("input");
+        expect(input.length).toEqual(1);
+        var button = $("#test").find("span.glyphicon-remove");
+        expect(button.length).toEqual(1);
+        button.trigger("click");
+        var deleted = $("#test").find("span.glyphicon-remove");
+        expect(deleted.length).toEqual(0);
+        input = $("#test").find("input");
+        expect(input.length).toEqual(0);
         medeaHelper.removeTestContainer("test");
     });
 
