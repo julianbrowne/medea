@@ -13,6 +13,11 @@
     <div id="example"></div>
     <script>
         $(function() { 
+
+            function pretty(obj) { 
+                return JSON.stringify(obj, null, 2); 
+            }
+
             var object = {
                 firstName: "John",
                 lastName: "Smith",
@@ -29,17 +34,17 @@
                 }
             };
 
-            $("#source").html("<pre><code>"+JSON.stringify(object, null, 2)+"</code></pre>");
+            $("#source")
+                .html("<pre><code>"+pretty(object)+"</code></pre>");
 
-            $("#example").medea(object, { removeOnSubmit: true });
-            $("#example").on("shown", function(e) { alert("form rendered"); })
-            $("#example").on("add", function(e, f) { alert("field added: " + JSON.stringify(f, null, 2)) })
-            $("#example").on("remove", function(e, f) { alert("field removed: " + JSON.stringify(f, null, 2)) })
-            $("#example").on("cancel", function(e) { alert("edit cancelled") })
-            $("#example").on("submit", function(e, j) { 
-                var j = JSON.stringify(j, null, 2);
-                console.log(j);
-            });
+            $("#example")
+                .medea(object)
+                .on("shown",  function(e)    { alert("form rendered");               })
+                .on("add",    function(e, f) { alert("field added: "   + pretty(f)); })
+                .on("remove", function(e, f) { alert("field removed: " + pretty(f)); })
+                .on("cancel", function(e)    { alert("edit cancelled")               })
+                .on("submit", function(e, f) { alert(pretty(f));                     });
+
         });    
     </script>
 </body>
