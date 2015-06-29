@@ -144,7 +144,7 @@ describe("Medea", function() {
         medeaHelper.removeTestContainer("test");
     });
 
-    it("should respect buttons option", function() { 
+    it("should respect 'buttons' option", function() { 
         medeaHelper.addTestContainer("test");
         expect($("#test").length).toEqual(1);
         $("#test").medea({});
@@ -155,6 +155,30 @@ describe("Medea", function() {
         $("#test").medea({}, {buttons: false});
         expect($("#test button").length).toEqual(0);
         //medeaHelper.removeTestContainer("test");
+    });
+
+    it("should respect 'id' option", function() { 
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({}, {id: "sumner"});
+        expect($("#sumner").length).toEqual(1);
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should respect 'labelColumns' option", function() { 
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({testValue: 10}, {labelColumns: 3});
+        expect($("#sumner label").hasClass("col-sm-3")).toEqual(true);
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should respect 'inputColumns' option", function() { 
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({testValue: 10}, {inputColumns: 8});
+        expect($("#sumner div.form-group div").hasClass("col-sm-8")).toEqual(true);
+        medeaHelper.removeTestContainer("test");
     });
 
 });
