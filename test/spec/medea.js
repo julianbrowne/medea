@@ -144,4 +144,17 @@ describe("Medea", function() {
         medeaHelper.removeTestContainer("test");
     });
 
+    it("should respect buttons option", function() { 
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({});
+        expect($("#test button").length).toEqual(3);
+        medeaHelper.removeTestContainer("test");
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({}, {buttons: false});
+        expect($("#test button").length).toEqual(0);
+        //medeaHelper.removeTestContainer("test");
+    });
+
 });
