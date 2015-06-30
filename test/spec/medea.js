@@ -134,10 +134,10 @@ describe("Medea", function() {
         $("#test").html(field);
         var input = $("#test").find("input");
         expect(input.length).toEqual(1);
-        var button = $("#test").find("span.glyphicon-remove");
+        var button = $("#test").find("span.glyphicon-trash");
         expect(button.length).toEqual(1);
         button.trigger("click");
-        var deleted = $("#test").find("span.glyphicon-remove");
+        var deleted = $("#test").find("span.glyphicon-trash");
         expect(deleted.length).toEqual(0);
         input = $("#test").find("input");
         expect(input.length).toEqual(0);
@@ -178,6 +178,36 @@ describe("Medea", function() {
         expect($("#test").length).toEqual(1);
         $("#test").medea({testValue: 10}, {inputColumns: 8});
         expect($("#sumner div.form-group div").hasClass("col-sm-8")).toEqual(true);
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should respect 'noForm' option", function() { 
+        medeaHelper.addTestContainer("test");
+        expect($("#test").length).toEqual(1);
+        $("#test").medea({testValue: 10}, {noForm: true});
+        expect($("form").length).toEqual(0);
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should fire 'submit.medea.form' event on form submit", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").medea({ fieldOne: 55});
+        var spy = spyOnEvent($("#test"), "submit.medea.form");
+        $("form").trigger("submit");
+        expect("submit.medea.form").toHaveBeenTriggeredOn($("#test"));
+        expect(spy).toHaveBeenTriggered();
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should not submit form when enter key pressed", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").medea({ fieldOne: 55});
+        var spy = spyOnEvent($("#test"), "submit.medea.form");
+        expect($("input").length).toEqual(1);
+        var e = jQuery.Event( "keypress", { keyCode: 13 } );
+        $("input").trigger(e);
+        expect("submit.medea.form").not.toHaveBeenTriggeredOn($("#test"));
+        expect(spy).not.toHaveBeenTriggered();
         medeaHelper.removeTestContainer("test");
     });
 
