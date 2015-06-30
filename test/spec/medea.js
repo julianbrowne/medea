@@ -116,15 +116,62 @@ describe("Medea", function() {
         medeaHelper.removeTestContainer("test");
     });
 
-    it("should convert form to json", function() { 
-        // @todo: extend test with sophisticated forms
+    it("should convert string form field to json", function() { 
         medeaHelper.addTestContainer("test");
         $("#test").html("<form><input type=\"text\" name=\"iceCream\" data-json-type=\"string\" value=\"99\"></form>");
         var obj = Medea.form2object("form");
-        expect(obj).toEqual({ iceCream: '99' });
-        $("#test").html("<form><input type=\"text\" name=\"my.deep.field\" data-json-type=\"string\" value=\"99\"></form>");
-        obj = Medea.form2object("form");
-        expect(obj).toEqual({my:{deep:{field:'99'}}});
+        expect(obj).toEqual({ iceCream: "99" });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should convert integer form field to json", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form><input type=\"text\" name=\"iceCream\" data-json-type=\"number\" value=\"99\"></form>");
+        var obj = Medea.form2object("form");
+        expect(obj).toEqual({ iceCream: 99 });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should convert array form field to json", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form><input type=\"text\" name=\"hobbies[0]\" data-json-type=\"string\" value=\"tennis\"><input type=\"text\" name=\"hobbies[1]\" data-json-type=\"string\" value=\"running\"></form>");
+        var obj = Medea.form2object("form");
+        expect(obj).toEqual({ hobbies: ["tennis", "running"] });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should convert float form field to json", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form><input type=\"text\" name=\"pi\" data-json-type=\"number\" value=\"3.14159\"></form>");
+        var obj = Medea.form2object("form");
+        expect(obj).toEqual({ pi: 3.14159 });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should convert boolean form field to json", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form><input type=\"checkbox\" name=\"theCatIsDead\" data-json-type=\"boolean\" value=\"true\" checked></form>");
+        var obj = Medea.form2object("form");
+        expect(obj).toEqual({ theCatIsDead: true });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should warn when no selection present", function() { 
+        medeaHelper.addTestContainer("test");
+        var spy = spyOn(console,"warn");
+        var obj = Medea.form2object("#nonexistent");
+        expect(obj).toEqual({});
+        expect(spy).toHaveBeenCalled();
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should warn when no inputs fields are present", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form><span></span></form>");
+        var spy = spyOn(console,"warn");
+        var obj = Medea.form2object("#test");
+        expect(obj).toEqual({});
+        expect(spy).toHaveBeenCalled();
         medeaHelper.removeTestContainer("test");
     });
 
@@ -208,6 +255,14 @@ describe("Medea", function() {
         $("input").trigger(e);
         expect("submit.medea.form").not.toHaveBeenTriggeredOn($("#test"));
         expect(spy).not.toHaveBeenTriggered();
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should map form into object even without form tag", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").medea({ one: { two: 55} }, {noForm: true});
+        var obj = Medea.form2object(".medea-root");
+        expect(obj).toEqual({ one: { two: 55} });
         medeaHelper.removeTestContainer("test");
     });
 
