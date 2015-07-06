@@ -2,15 +2,34 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>Medea Example: Basic</title>
+    <title>Medea Example: Embedded in Form</title>
     <link rel="stylesheet" media="all" href="../vendor/bootstrap/css/bootstrap.min.css" >
     <script src="../vendor/jquery/jquery-2.1.4.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../lib/jquery.medea.js"></script>
 </head>
 <body class="container">
+
     <div id="source"></div>
-    <div id="example"></div>
+
+    <div id="example">
+        <form class="form-horizontal">
+            <button>save</button>
+            <div class="form-group">
+                <label class="col-sm-3 control-label text-right" for="path-edit-source">Nickname:</label>
+                <div class="col-sm-8 row">
+                    <input type="text" name="nickname" value="john doe">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label text-right">Medea:</label>
+                <div class="col-sm-8 row">
+                    <div id="medea-here"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <script>
         $(function() { 
 
@@ -18,11 +37,15 @@
                 return JSON.stringify(obj, null, 2); 
             }
 
-            var object = {
-                firstName: "John",
-                lastName: "Smith",
-                age: 42,
-                likesIceCream: true,
+            var object = { 
+                name: { 
+                    firstName: "John",
+                    lastName: "Smith"
+                },
+                personal: { 
+                    age: 42,
+                    likesIceCream: true
+                },
                 hobbies: [ 
                     "football",
                     "golf"
@@ -37,8 +60,8 @@
             $("#source")
                 .html("<pre><code>"+pretty(object)+"</code></pre>");
 
-            $("#example")
-                .medea(object)
+            $("#medea-here")
+                .medea(object, { id: "john-smith-form", buttons: false, labelColumns: 2, inputColumns: 8,noForm: true })
                 .on("shown",  function(e)    { alert("form rendered");               })
                 .on("add",    function(e, f) { alert("field added: "   + pretty(f)); })
                 .on("remove", function(e, f) { alert("field removed: " + pretty(f)); })
