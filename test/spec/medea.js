@@ -230,25 +230,30 @@ describe("Medea", function() {
 
     it("should respect 'noForm' option", function() { 
         medeaHelper.addTestContainer("test");
+        $("#test").append($("<form>"));
         expect($("#test").length).toEqual(1);
-        $("#test").medea({testValue: 10}, {noForm: true});
-        expect($("form").length).toEqual(0);
+        $("#test form").medea({testValue: 10}, {noForm: true});
+        expect($("form").length).toEqual(1);
         medeaHelper.removeTestContainer("test");
     });
 
     it("should fire 'submit.medea.form' event on form submit", function() { 
         medeaHelper.addTestContainer("test");
-        $("#test").medea({ fieldOne: 55});
-        var spy = spyOnEvent($("#test"), "submit.medea.form");
-        $("form").trigger("submit");
-        expect("submit.medea.form").toHaveBeenTriggeredOn($("#test"));
+        var container = $("#test");
+        container.medea({ fieldOne: 55});
+        var form = $("form");
+        var spy = spyOnEvent(container, "submit.medea.form");
+        var submitHandler = jasmine.createSpy().and.returnValue(false);
+        form.submit(submitHandler);
+        form.trigger("submit");
+        expect("submit.medea.form").toHaveBeenTriggeredOn(container);
         expect(spy).toHaveBeenTriggered();
         medeaHelper.removeTestContainer("test");
     });
 
     it("should not submit form when enter key pressed", function() { 
         medeaHelper.addTestContainer("test");
-        $("#test").medea({ fieldOne: 55});
+        $("#test").medea({ fieldOne: 12345});
         var spy = spyOnEvent($("#test"), "submit.medea.form");
         expect($("input").length).toEqual(1);
         var e = jQuery.Event( "keypress", { keyCode: 13 } );
@@ -258,11 +263,22 @@ describe("Medea", function() {
         medeaHelper.removeTestContainer("test");
     });
 
-    it("should map form into object even without form tag", function() { 
+    it("should map form into object with existing form tag", function() { 
         medeaHelper.addTestContainer("test");
+        $("#test").append($("<form>"));
+        var spy = spyOn(console, "error");
+        $("#test form").medea({ one: { two: 55} }, {noForm: true});
+        expect($("#test form input").length).toEqual(1);
+        expect(spy).not.toHaveBeenCalled();
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should error if parent form tag is missing", function() { 
+        medeaHelper.addTestContainer("test");
+        var spy = spyOn(console, "error");
         $("#test").medea({ one: { two: 55} }, {noForm: true});
-        var obj = Medea.form2object(".medea-root");
-        expect(obj).toEqual({ one: { two: 55} });
+        expect($("#test form input").length).toEqual(0);
+        expect(spy).toHaveBeenCalled();
         medeaHelper.removeTestContainer("test");
     });
 
