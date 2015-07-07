@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Medea Example: Basic</title>
+    <link rel="stylesheet" media="all" href="../vendor/bootstrap/css/bootstrap.min.css" >
+    <script src="../vendor/jquery/jquery-2.1.4.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../lib/jquery.medea.js"></script>
+    <script src="utils.js"></script>
+</head>
+<body class="container">
+
+    <a href="index.html">examples</a>
+
+    <h2>JSON Source</h2>
+
+    <div id="source"></div>
+
+    <div id="example"></div>
+
+    <script>
+        $(function() { 
+
+            utils.prettyPrintSource(utils.testJSON);
+
+            $("#example").medea(utils.testJSON);
+
+            $("#example").modalise();
+
+        });
+    </script>
+
+</body>
+</html>
