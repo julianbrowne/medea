@@ -48,6 +48,11 @@ Medea takes a number of options:
 
     $(selector).medea(object, options);
 
-options is an object with these fields:
+``options`` is an object with these fields:
 
-*   removeOnSubmit - true/false: remove the form from the DOM when it's submitted. Default false.
+*   ``removeOnSubmit`` - true/false: remove the created elements from the DOM when the form is submitted. Default is false.
+*   ``buttons`` - Create save and cancel buttons for the form. Default is true.
+*   ``labelColumns`` - Number of columns to use for the form labels. Medea uses bootstrap classes, so this just means that field LABEL tags will be classed with ``col-sm-{labelColumns}``. Default is 2.
+*   ``inputColums`` - Number of colums to use for the div encapsulating form INPUT tags. Default is 10.
+*   ``noForm`` - Replaces the FORM tag with a DIV tag. Useful if a form already exists in the DOM and the generated field sets are just to be inserted into it. Default is false.
+
