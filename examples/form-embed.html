@@ -12,23 +12,40 @@
 
     <div id="source"></div>
 
-    <div id="example">
-        <form class="form-horizontal">
-            <button>save</button>
-            <div class="form-group">
-                <label class="col-sm-3 control-label text-right" for="path-edit-source">Nickname:</label>
-                <div class="col-sm-8 row">
-                    <input type="text" name="nickname" value="john doe">
+<div id="example-modal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Medea example</h4>
+            </div>
+            <div class="modal-body">
+                <div id="example">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Nickname:</label>
+                            <div class="col-sm-8 row">
+                                <input type="text" name="nickname" value="john doe">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Medea:</label>
+                            <div class="col-sm-8 row">
+                                <div id="medea-here"></div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label text-right">Medea:</label>
-                <div class="col-sm-8 row">
-                    <div id="medea-here"></div>
-                </div>
+            <div class="modal-footer">
+                <button id="node-edit-cancel" type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                <button id="node-edit-save" type="button" class="btn btn-primary">save</button>
             </div>
-        </form>
+        </div>
     </div>
+</div>
 
     <script>
         $(function() { 
@@ -67,6 +84,8 @@
                 .on("remove", function(e, f) { alert("field removed: " + pretty(f)); })
                 .on("cancel", function(e)    { alert("edit cancelled")               })
                 .on("submit", function(e, f) { alert(pretty(f));                     });
+
+            $("#example-modal").modal();
 
         });    
     </script>
