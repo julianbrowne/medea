@@ -13,7 +13,7 @@ Or fetch the zip file from ```https://github.com/julianbrowne/medea/archive/mast
 
 ## Usage
 
-Check out the bundled example in examples.
+Check out the bundled examples.
 
 Make sure you have jQuery and Medea included in your app:
 
@@ -22,9 +22,15 @@ Make sure you have jQuery and Medea included in your app:
 
 Using Medea is a simple as:
 
-    $(jquery-selector).medea(json-object);
+    $(jquery-selector).medea(object);
 
-Where `jquery-selector` is the identifier of a target container (e.g. div) on the page and `json-object` is the object you wish to edit. The target element will emit a submit event when the form is submitted with the OK button.
+Where ``jquery-selector`` is the identifier of a target container (e.g. div) on the page and ``object`` is the javascript or JSON object you wish to edit.
+
+For example:
+
+    $("body").medea({hello: "world"});
+
+The target element will emit a submit event when the form is submitted with the OK button.
 
     $(jquery-selector).on("submit", function(updated-json-object) { 
         // do something with updated-json-object here ..
@@ -34,11 +40,11 @@ Where `jquery-selector` is the identifier of a target container (e.g. div) on th
 
 Events emitted:
 
-*   "shown"   - form rendered
-*   "submit"  - form submitted with OK button
-*   "cancel"  - form editing cancelled with cancel button
-*   "add"     - new field added
-*   "remove"  - field deleted
+*   ``medea.shown``: form rendered onto display
+*   ``medea.submit``: form (or parent form) submitted
+*   ``medea.cancel``: editing cancelled with cancel button
+*   ``medea.add``: new field added
+*   ``medea.remove``: existing field deleted
 
 "shown", "submit" and "cancel" events return the JSON object.
 
@@ -55,4 +61,3 @@ Medea takes a number of options:
 *   ``labelColumns`` - Number of columns to use for the form labels. Medea uses bootstrap classes, so this just means that field LABEL tags will be classed with ``col-sm-{labelColumns}``. Default is 2.
 *   ``inputColums`` - Number of colums to use for the div encapsulating form INPUT tags. Default is 10.
 *   ``noForm`` - Replaces the FORM tag with a DIV tag. Useful if a form already exists in the DOM and the generated field sets are just to be inserted into it. Default is false.
-
