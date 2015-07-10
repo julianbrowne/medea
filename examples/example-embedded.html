@@ -13,9 +13,19 @@
 
     <a href="index.html">examples</a>
 
-    <h2>JSON Source</h2>
+    <h2>Code</h2>
 
-    <div id="source"></div>
+    <pre>
+        <code>
+            $(selector).medea(object, { 
+                id: "form-id", 
+                buttons: false, 
+                labelColumns: 2, 
+                inputColumns: 8,
+                noForm: true
+            });
+        </code>
+    </pre>
 
     <div id="example">
         <form class="form-horizontal">
@@ -37,9 +47,9 @@
     <script>
         $(function() { 
 
-            utils.prettyPrintSource(utils.testJSON);
+            utils.prettyPrintSource(utils.testObject);
 
-            $("#medea-here").medea(utils.testJSON, { 
+            $("#medea-here").medea(utils.testObject, { 
                 id: "john-smith-form", 
                 buttons: false, 
                 labelColumns: 2, 

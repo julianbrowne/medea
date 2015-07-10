@@ -13,18 +13,22 @@
 
     <a href="index.html">examples</a>
 
-    <h2>JSON Source</h2>
-
-    <div id="source"></div>
-
     <div id="example"></div>
+
+    <h2>Code</h2>
+
+    <pre>
+        <code>
+            $(selector).medea(object);
+        </code>
+    </pre>
 
     <script>
         $(function() { 
 
-            utils.prettyPrintSource(utils.testJSON);
+            utils.prettyPrintSource(utils.testObject);
 
-            $("#example").medea(utils.testJSON);
+            $("#example").medea(utils.testObject);
 
             $("#example").modalise();
 

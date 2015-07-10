@@ -7,7 +7,7 @@ var utils = (function() {
 
     return { 
 
-        testJSON: { 
+        testObject: { 
             name: { 
                 firstName: "John",
                 lastName: "Smith"
@@ -28,7 +28,9 @@ var utils = (function() {
         },
 
         prettyPrintSource: function(json) { 
-            $("#source").html("<pre><code>" + prettyPrint(json) + "</code></pre>");
+            $("body").append('<h2>JSON Source</h2>');
+            $("body").append('<div id="example-source"></div>');
+            $("#example-source").html("<pre><code>" + prettyPrint(json) + "</code></pre>");
         }
 
     };
