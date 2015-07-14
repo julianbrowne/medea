@@ -28,19 +28,23 @@ var utils = (function() {
         },
 
         prettyPrintSource: function(json) { 
-            $("body").append('<h2>JSON Source</h2>');
-            $("body").append('<div id="example-source"></div>');
-            $("#example-source").html("<pre><code>" + prettyPrint(json) + "</code></pre>");
+            if($("#json-source-header").length===0) { 
+                $("<h2>").html("JSON Source").attr("id","json-source-header").appendTo($("body"));
+            }
+            if($("#json-source-contents").length===0) { 
+                $("<div>").attr("id","json-source-contents").appendTo($("#json-source-header").after());
+            }
+            $("#json-source-contents").html("<pre><code>" + prettyPrint(json) + "</code></pre>");
         }
 
     };
 
 }());
 
-$.fn.modalise = function() { 
+$.fn.modalise = function(id) { 
     return this.each(function(index, element) { 
         $("body").append( 
-            '<div id="example-modal" class="modal" role="dialog"> \
+            '<div id="' + id + '" class="modal" role="dialog"> \
                 <div class="modal-dialog"><div class="modal-content"> \
                         <div class="modal-header"></div>\
                         <div class="modal-body"></div>\
@@ -49,8 +53,7 @@ $.fn.modalise = function() {
                 </div>\
             </div>'
         );
-        $(".modal-body").html($(this).html());
-        $(this).remove();
-        $("#example-modal").modal();
+        $(this).appendTo(".modal-body");
+        $("#"+id).modal();
     });
 }

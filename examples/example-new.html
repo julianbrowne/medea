@@ -2,8 +2,9 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>Medea Example: Basic</title>
+    <title>Medea Example: New Object</title>
     <link rel="stylesheet" media="all" href="../vendor/bootstrap/css/bootstrap.min.css" >
+    <link rel="stylesheet" media="all" href="style.css" >
     <script src="../vendor/jquery/jquery-2.1.4.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../lib/jquery.medea.js"></script>
@@ -19,22 +20,24 @@
 
     <pre>
         <code>
-            $(selector).medea(object);
+            $(selector).medea({});
         </code>
     </pre>
 
     <script>
         $(function() { 
 
-            utils.prettyPrintSource(utils.testObject);
-
-            var form = $("#example").medea(utils.testObject);
-
+            var form = $("#example").medea({});
             $("#example").modalise("example-modal");
+
+            form.on("medea.submit", function(e, obj) { 
+                utils.prettyPrintSource(obj);
+            });
 
             form.on("medea.cancel", function() { 
                 $("#example-modal").modal("hide");
             });
+
 
         });
     </script>
