@@ -48,6 +48,22 @@ describe("Medea", function() {
         expect(f.attr("name")).toEqual("tf");
     });
 
+    it("should make a button", function() { 
+        var btnHTML = Medea.button("plus")[0].outerHTML;
+        expect(btnHTML).toEqual('<button type="button" class="btn btn-plus"></button>');
+    });
+
+    it("should determine integerness", function() { 
+        expect(Medea.isInteger(1)).toBe(true);
+        expect(Medea.isInteger(11.9)).toBe(false);
+        expect(Medea.isInteger("blah")).toBe(false);
+    });
+
+    it("should generate form field names", function() { 
+        expect(Medea.generateFieldName("a", "b")).toEqual("b.a");
+        expect(Medea.generateFieldName(99, "b")).toEqual("b[99]");
+    });
+
     it("should make a number form", function() { 
         medeaHelper.addTestContainer("test");
         expect($("#test").length).toEqual(1);
@@ -153,6 +169,17 @@ describe("Medea", function() {
         $("#test").html("<form><input type=\"checkbox\" name=\"theCatIsDead\" data-json-type=\"boolean\" value=\"true\" checked></form>");
         var obj = Medea.form2object("form");
         expect(obj).toEqual({ theCatIsDead: true });
+        medeaHelper.removeTestContainer("test");
+    });
+
+    it("should convert multi boolean form field to json", function() { 
+        medeaHelper.addTestContainer("test");
+        $("#test").html("<form> \
+            <input type=\"checkbox\" name=\"theCatIsAlive\" data-json-type=\"boolean\" checked> \
+            <input type=\"checkbox\" name=\"theCatIsDead\" data-json-type=\"boolean\" > \
+        </form>");
+        var obj = Medea.form2object("form");
+        expect(obj).toEqual({ theCatIsAlive: true, theCatIsDead: false });
         medeaHelper.removeTestContainer("test");
     });
 
@@ -287,10 +314,12 @@ describe("Medea", function() {
         var container = $("#test");
         container.append($("<form>"));
         $("form").append('<label>One</label><br/>');
-        $("form").append('<input type="text" data-json-type="number" value="1" name="one">');
+        $("form").append('<input type="text" data-json-type="number" value="1" name="one"><br/>');
+        $("form").append('<label>Two</label><br/>');
+        $("form").append('<input type="text" data-json-type="number" value="2" name="two"><br/>');
         $("form").append('<div id="insertion-point"></div>');
         var medeaContent = $("#insertion-point");
-        medeaContent.medea({ two: 2, three: 3, four: 4}, {noForm: true});
+        medeaContent.medea({ three: 3, four: 4}, {noForm: true});
         medeaContent.on("medea.submit", function(e, data) { 
             expect(data.one).toEqual(1);
             expect(data.two).toEqual(2);
