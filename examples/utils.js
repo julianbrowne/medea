@@ -40,20 +40,3 @@ var utils = (function() {
     };
 
 }());
-
-$.fn.modalise = function(id) { 
-    return this.each(function(index, element) { 
-        $("body").append( 
-            '<div id="' + id + '" class="modal" role="dialog"> \
-                <div class="modal-dialog"><div class="modal-content"> \
-                        <div class="modal-header"></div>\
-                        <div class="modal-body"></div>\
-                        <div class="modal-footer"></div>\
-                    </div>\
-                </div>\
-            </div>'
-        );
-        $(this).appendTo(".modal-body");
-        $("#"+id).modal();
-    });
-}
