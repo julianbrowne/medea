@@ -61,3 +61,9 @@ Medea takes a number of options:
 *   ``labelColumns`` - Number of columns to use for the form labels. Medea uses bootstrap classes, so this just means that field LABEL tags will be classed with ``col-sm-{labelColumns}``. Default is 2.
 *   ``inputColums`` - Number of colums to use for the div encapsulating form INPUT tags. Default is 10.
 *   ``noForm`` - Replaces the FORM tag with a DIV tag. Useful if a form already exists in the DOM and the generated field sets are just to be inserted into it. Default is false.
+
+@todo
+
+modal
+modalId
+
