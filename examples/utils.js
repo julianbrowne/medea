@@ -1,10 +1,6 @@
 
 var utils = (function() { 
 
-    function prettyPrint(obj) { 
-        return JSON.stringify(obj, null, 2);
-    }
-
     return { 
 
         testObject: { 
@@ -27,14 +23,29 @@ var utils = (function() {
             }
         },
 
-        prettyPrintSource: function(json) { 
-            if($("#json-source-header").length===0) { 
-                $("<h2>").html("JSON Source").attr("id","json-source-header").appendTo($("body"));
+        prettyPrint: function(obj) { 
+            return JSON.stringify(obj, null, 2);
+        },
+
+        prettyPrintSource: function(obj, target) { 
+
+            var target = (target === undefined) ? "json-source" : target;
+            var selector = "#" + target;
+
+            if($(selector).length===0) { 
+                $("<div>")
+                    .attr("id",target)
+                    .appendTo($("body"));
             }
-            if($("#json-source-contents").length===0) { 
-                $("<div>").attr("id","json-source-contents").appendTo($("#json-source-header").after());
-            }
-            $("#json-source-contents").html("<pre><code>" + prettyPrint(json) + "</code></pre>");
+
+            $(selector).empty();
+
+            $("<div>")
+                .attr("id", "json-source-contents")
+                .appendTo(selector);
+
+            $("#json-source-contents")
+                .html("<pre><code>" + JSON.stringify(obj, null, 2) + "</code></pre>");
         }
 
     };

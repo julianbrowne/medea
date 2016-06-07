@@ -13,23 +13,33 @@
 
     <a href="index.html">examples</a>
 
-    <h2>Code</h2>
+    <h2>Basic Example</h2>
+
+    <h3>Code</h3>
     <pre><code>$(selector).medea(object);</code></pre>
 
-    <h2>Output</h2>
-    <div id="example"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Source</h4>
+            <div id="source"></div>
+        </div>
+        <div class="col-md-6">
+            <h4>Form</h4>
+            <div id="form"></div>
+        </div>
+    </div>
 
     <script>
         $(function() { 
-
-            utils.prettyPrintSource(utils.testObject);
-
-            var form = $("#example").medea(utils.testObject);
-
+            utils.prettyPrintSource(utils.testObject, "source");
+            var form = $("#form").medea(utils.testObject);
             form.on("medea.cancel", function() { 
-                $("#example").hide();
+                //$("#form").hide();
             });
-
+            form.on("medea.submit", function(e, obj) { 
+                utils.prettyPrintSource(obj, "source");
+                //$("#form").hide();
+            });
         });
     </script>
 
