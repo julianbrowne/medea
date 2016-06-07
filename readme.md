@@ -5,7 +5,7 @@ Medea loves JSON. Give Medea a JSON object, even one with nested objects, and it
 
 ## Installation
 
-If you have git installed copy the repository into a local directory:
+If you have git installed, copy the repository into a local directory:
 
     git clone https://github.com/julianbrowne/medea.git
 
