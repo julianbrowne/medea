@@ -113,7 +113,7 @@ describe("Medea", function() {
             expect($("#test").length).toEqual(1);
             var list = ["a","b","c"];
             $("#test").medea({list: list});
-            expect(medeaHelper.formLabel().html()).toEqual("[0]");
+            expect(medeaHelper.formLabel().html()).toEqual("List[0]");
             expect(medeaHelper.formInput().length).toEqual(3);
             expect(medeaHelper.formInput().attr("type")).toEqual("text");
             expect(medeaHelper.formInput().attr("data-json-type")).toEqual("string");
@@ -124,19 +124,27 @@ describe("Medea", function() {
         });
 
         it("should make a dynamic input field", function() { 
+
             medeaHelper.addTestContainer("test");
-            var input = Medea.inputTogglerGroup("name", "value", "text");
+            var input = Medea.dynamicInputElement("name", "bob", "text");
             $("#test").append(input);
-            var field = $("#test input[type=text]");
-            expect(field.length).toEqual(1);
-            expect(field.val()).toEqual("value");
-            var changer = $("#test span.glyphicon-option-vertical");
-            expect(changer.length).toEqual(1);
-            changer.trigger("click");
-            var field = $("#test input[type=text]");
-            expect(field.length).toEqual(0);
-            var field = $("#test input[type=checkbox]");
-            expect(field.length).toEqual(1);
+
+            var inputField = $("#test input.form-control[type=text]");
+            expect(inputField.length).toEqual(1);
+            expect(inputField.val()).toEqual("bob");
+
+            // should have three buttons: toggler, delete, duplicate
+            var buttons = $("div.input-group-addon");
+            expect(buttons.length).toEqual(3);
+
+            // toggle to a checkbox
+            var toggleButton=$("span.glyphicon-option-vertical");
+            toggleButton.trigger("click");
+            var oldInputField = $("#test input.form-control[type=text]");
+            var newInputField = $("#test input.form-control[type=checkbox]");
+            expect(oldInputField.length).toEqual(0);
+            expect(newInputField.length).toEqual(1);
+
             medeaHelper.removeTestContainer("test");
         });
 
