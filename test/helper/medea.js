@@ -7,6 +7,24 @@ var medeaHelper = {
 
     removeTestContainer: function(id) { 
         $("#"+id).remove();
+    },
+
+    formLabel: function() {
+        return $("div.form-group").find("label");
+    },
+
+    formInput: function() { 
+        return $("div.form-group").find("input.form-control");
+    },
+
+    matcher: function() { 
+        return { 
+            form: $("div.form-group"),
+            firstInput: $("div.form-group").find("input.form-control").first(),
+            allInputs:  $("div.form-group").find("input.form-control"),
+            firstLabel: $("div.form-group").find("label").first(),
+            allLabels:  $("div.form-group").find("label")
+        }
     }
 
 };

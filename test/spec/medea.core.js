@@ -14,53 +14,6 @@ describe("Medea", function() {
 
     });
 
-    describe("Usage", function() { 
-
-        it("should error if input is not an object", function() { 
-            expect(function() { $("body").medea(999); }).toThrow("not an object");
-        });
-
-        it("should warn when no selection present", function() { 
-            medeaHelper.addTestContainer("test");
-            var spy = spyOn(console,"warn");
-            var obj = Medea.form2object("#nonexistent");
-            expect(obj).toEqual({});
-            expect(spy).toHaveBeenCalled();
-            medeaHelper.removeTestContainer("test");
-        });
-
-        it("should warn when no inputs fields are present", function() { 
-            medeaHelper.addTestContainer("test");
-            $("#test").html("<form><span></span></form>");
-            var spy = spyOn(console,"warn");
-            var obj = Medea.form2object("#test");
-            expect(obj).toEqual({});
-            expect(spy).toHaveBeenCalled();
-            medeaHelper.removeTestContainer("test");
-        });
-
-        it("should map fields into parent element with existing form tag", function() { 
-            medeaHelper.addTestContainer("test");
-            var container = $("#test");
-            container.append($("<form>"));
-            var spy = spyOn(console, "error");
-            $("#test form").medea({ one: { two: 55} }, {noForm: true});
-            expect($("#test form input").length).toEqual(1);
-            expect(spy).not.toHaveBeenCalled();
-            medeaHelper.removeTestContainer("test");
-        });
-
-        it("should error if parent form tag is missing", function() { 
-            medeaHelper.addTestContainer("test");
-            var spy = spyOn(console, "error");
-            $("#test").medea({ one: { two: 55} }, {noForm: true});
-            expect($("#test form input").length).toEqual(0);
-            expect(spy).toHaveBeenCalled();
-            medeaHelper.removeTestContainer("test");
-        });
-
-    });
-
     describe("Utilities", function() { 
 
         it("should turn an empty object into an empty form", function() { 
@@ -126,10 +79,10 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             expect($("#test").length).toEqual(1);
             $("#test").medea({ num: 999 });
-            expect($("#test div label").html()).toEqual("Num");
-            expect($("#test div input").attr("type")).toEqual("number");
-            expect($("#test div input").attr("data-json-type")).toEqual("number");
-            expect($("#test div input").val()).toEqual("999");
+            expect(medeaHelper.formLabel().html()).toEqual("Num");
+            expect(medeaHelper.formInput().attr("type")).toEqual("number");
+            expect(medeaHelper.formInput().attr("data-json-type")).toEqual("number");
+            expect(medeaHelper.formInput().val()).toEqual("999");
             medeaHelper.removeTestContainer("test");
         });
 
@@ -137,10 +90,10 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             expect($("#test").length).toEqual(1);
             $("#test").medea({ text: "abc" });
-            expect($("#test div label").html()).toEqual("Text");
-            expect($("#test div input").attr("type")).toEqual("text");
-            expect($("#test div input").attr("data-json-type")).toEqual("string");
-            expect($("#test div input").val()).toEqual("abc");
+            expect(medeaHelper.formLabel().html()).toEqual("Text");
+            expect(medeaHelper.formInput().attr("type")).toEqual("text");
+            expect(medeaHelper.formInput().attr("data-json-type")).toEqual("string");
+            expect(medeaHelper.formInput().val()).toEqual("abc");
             medeaHelper.removeTestContainer("test");
         });
 
@@ -148,10 +101,10 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             expect($("#test").length).toEqual(1);
             $("#test").medea({ amIRight: true });
-            expect($("#test div label").html()).toEqual("Am I Right");
-            expect($("#test div input").attr("type")).toEqual("checkbox");
-            expect($("#test div input").attr("data-json-type")).toEqual("boolean");
-            expect($("#test div input").val()).toEqual("true");
+            expect(medeaHelper.formLabel().html()).toEqual("Am I Right");
+            expect(medeaHelper.formInput().attr("type")).toEqual("checkbox");
+            expect(medeaHelper.formInput().attr("data-json-type")).toEqual("boolean");
+            expect(medeaHelper.formInput().val()).toEqual("true");
             medeaHelper.removeTestContainer("test");
         });
 
@@ -160,11 +113,11 @@ describe("Medea", function() {
             expect($("#test").length).toEqual(1);
             var list = ["a","b","c"];
             $("#test").medea({list: list});
-            expect($("#test div label").html()).toEqual("[0]");
-            expect($("#test div input").length).toEqual(3);
-            expect($("#test div input").attr("type")).toEqual("text");
-            expect($("#test div input").attr("data-json-type")).toEqual("string");
-            $("#test div input").each(function(index) {
+            expect(medeaHelper.formLabel().html()).toEqual("[0]");
+            expect(medeaHelper.formInput().length).toEqual(3);
+            expect(medeaHelper.formInput().attr("type")).toEqual("text");
+            expect(medeaHelper.formInput().attr("data-json-type")).toEqual("string");
+            medeaHelper.formInput().each(function(index) {
                 expect($(this).val()).toEqual(list[index]);
             });
             medeaHelper.removeTestContainer("test");
@@ -191,11 +144,15 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             expect($("#test").length).toEqual(1);
             $("#test").medea({ top: 10, level: { sub: "abc" } });
-            expect($("#test form div label").html()).toEqual("Top");
-            expect($("#test div input").val()).toEqual("10");
-            expect($("#test div input").length).toEqual(2);
-            expect($("#test form div.section div div.form-group label").html()).toEqual("Sub");
-            expect($("#test form div.section div div input").val()).toEqual("abc");
+            var match = medeaHelper.matcher();
+            // top level keys
+            expect(match.firstLabel.html()).toEqual("Top");
+            expect(match.firstInput.val()).toEqual("10");
+            expect(match.allInputs.length).toEqual(2);
+            expect(match.allLabels.length).toEqual(2);
+            // next level keys
+            expect(match.allLabels.last().html()).toEqual("Sub");
+            expect(match.allInputs.last().val()).toEqual("abc");
             medeaHelper.removeTestContainer("test");
         });
 
@@ -346,11 +303,14 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             var container = $("#test");
             container.medea({ abc: 123});
+            var match = medeaHelper.matcher();
             expect($("form").length).toEqual(1);
-            expect($("form input").length).toEqual(1);
+            expect(match.allInputs.length).toEqual(1);
+            // add 1 field
             container.trigger("medea.add");
+            var match = medeaHelper.matcher();
             expect($("form").length).toEqual(1);
-            expect($("form input").length).toEqual(3);
+            expect(match.allInputs.length).toEqual(2);
             medeaHelper.removeTestContainer("test");
         });
 
@@ -392,7 +352,7 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             $("#test").medea({ fieldOne: 12345});
             var spy = spyOnEvent($("#test"), "medea.submit");
-            expect($("input").length).toEqual(1);
+            expect($("input").length).toEqual(2);
             var e = jQuery.Event( "keypress", { keyCode: 13 } );
             $("input").trigger(e);
             expect("medea.submit").not.toHaveBeenTriggeredOn($("#test"));
