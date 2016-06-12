@@ -36,14 +36,16 @@
     <script>
         $(function() { 
 
-            var form = $("#form").medea(utils.testObject);
+            var obj = utils.testObject;
+
+            var form = $("#form").medea(obj);
 
             form.on("medea.add",    utils.logEvent("events"));
             form.on("medea.cancel", utils.logEvent("events"));
             form.on("medea.toggle", utils.logEvent("events"));
             form.on("medea.submit", utils.logObjectChangeEvent("source"));
 
-            utils.prettyPrintSource(utils.testObject, "source");
+            utils.prettyPrintSource(obj, "source");
 
         });
     </script>

@@ -14,29 +14,38 @@
 
     <a href="index.html">examples</a>
 
-    <div id="example"></div>
+    <h2>New Object Example</h2>
+    <p>Create full object from scratch</p>
 
-    <h2>Code</h2>
+    <h3>Code</h3>
+    <pre><code>$(selector).medea({});</code></pre>
 
-    <pre>
-        <code>
-            $(selector).medea({});
-        </code>
-    </pre>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Source</h4>
+            <div id="source"></div>
+            <h4>Events</h4>
+            <div id="events"></div>
+        </div>
+        <div class="col-md-7">
+            <h4>Form</h4>
+            <div id="form"></div>
+        </div>
+    </div>
 
     <script>
         $(function() { 
 
-            var form = $("#example").medea({});
-            $("#example").modalise("example-modal");
+            var obj = {};
 
-            form.on("medea.submit", function(e, obj) { 
-                utils.prettyPrintSource(obj);
-            });
+            var form = $("#form").medea(obj);
 
-            form.on("medea.cancel", function() { 
-                $("#example-modal").modal("hide");
-            });
+            form.on("medea.add",    utils.logEvent("events"));
+            form.on("medea.cancel", utils.logEvent("events"));
+            form.on("medea.toggle", utils.logEvent("events"));
+            form.on("medea.submit", utils.logObjectChangeEvent("source"));
+
+            utils.prettyPrintSource(obj, "source");
 
         });
     </script>
