@@ -13,16 +13,46 @@
 
     <a href="index.html">examples</a>
 
-    <h2>Code</h2>
-    <pre><code>$(selector).medea(object, {modal: true});</code></pre>
+    <h2>Modal Example</h2>
+    <p>
+        Uses Bootstrap modal to render form
+        <button id="show-modal">show</button>
+    </p>
 
-    <h2>Output</h2>
-    <div id="example"></div>
+    <h3>Code</h3>
+    <pre>
+        <code>
+            $(selector).medea(obj, {modal: true});
+        </code>
+    </pre>
+
+    <div class="row">
+        <div class="col-md-10">
+            <h4>Source</h4>
+            <div id="source"></div>
+            <h4>Events</h4>
+            <div id="events"></div>
+        </div>
+        <div class="col-md-8">
+            <div id="example"></div>
+        </div>
+    </div>
 
     <script>
         $(function() { 
-            utils.prettyPrintSource(utils.testObject);
-            var form = $("#example").medea(utils.testObject, {modal: true});
+
+            var obj = utils.simpleObject;
+
+            $("#show-modal").on("click", function() { 
+                var form = $("#example").medea(obj, {modal: true});
+                form.on("medea.add",    utils.logEvent("events"));
+                form.on("medea.cancel", utils.logEvent("events"));
+                form.on("medea.toggle", utils.logEvent("events"));
+                form.on("medea.submit", utils.logObjectChangeEvent("source"));
+            });
+
+            utils.prettyPrintSource(obj, "source");
+
         });
     </script>
 

@@ -13,54 +13,67 @@
 
     <a href="index.html">examples</a>
 
-    <h2>Code</h2>
+    <h2>Embedded Example</h2>
+    <p>Existing form on the page. Medea object is embedded into the form which works as before</p>
 
+    <h3>Code</h3>
     <pre>
         <code>
-            $(selector).medea(object, { 
-                id: "form-id", 
-                buttons: false, 
-                labelColumns: 2, 
-                inputColumns: 8,
-                noForm: true
-            });
+            $("#medea-here").medea(obj, { id: "formid", buttons: false, labelColumns: 2, inputColumns: 8, noForm: true })
         </code>
     </pre>
 
-    <div id="example">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-3 control-label text-right">Nickname:</label>
-                <div class="col-sm-8 row">
-                    <input type="text" name="nickname" value="john doe">
-                </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Source</h4>
+            <div id="source"></div>
+            <h4>Events</h4>
+            <div id="events"></div>
+        </div>
+        <div class="col-md-7">
+            <h4>Form</h4>
+            <div id="example">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label text-right">Nickname:</label>
+                        <div class="col-sm-8 row">
+                            <input type="text" name="nickname" value="john doe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label text-right">Medea:</label>
+                        <div class="col-sm-8 row">
+                            <div id="medea-here"></div>
+                        </div>
+                    </div>
+                    <div class="btn-toolbar pull-right">
+                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        <button type="button" class="btn btn-primary btn-sm">Cancel</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label text-right">Medea:</label>
-                <div class="col-sm-8 row">
-                    <div id="medea-here"></div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 
     <script>
         $(function() { 
 
-            utils.prettyPrintSource(utils.testObject);
+            var obj = utils.simpleObject;
 
-            $("#medea-here").medea(utils.testObject, { 
+            var form = $("#medea-here").medea(obj, { 
                 id: "john-smith-form", 
                 buttons: false, 
                 labelColumns: 2, 
                 inputColumns: 8,
                 noForm: true
-            })
-            .on("shown",  function(e)    { alert("form rendered");               })
-            .on("add",    function(e, f) { alert("field added: "   + pretty(f)); })
-            .on("remove", function(e, f) { alert("field removed: " + pretty(f)); })
-            .on("cancel", function(e)    { alert("edit cancelled")               })
-            .on("submit", function(e, f) { alert(pretty(f));                     });
+            });
+
+            form.on("medea.add",    utils.logEvent("events"));
+            form.on("medea.cancel", utils.logEvent("events"));
+            form.on("medea.toggle", utils.logEvent("events"));
+            form.on("medea.submit", utils.logObjectChangeEvent("source"));
+
+            utils.prettyPrintSource(obj, "source");
 
         });    
     </script>

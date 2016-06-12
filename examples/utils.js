@@ -43,6 +43,11 @@ var utils = (function() {
         target.html(prettyPrint(obj));
     }
 
+    var simpleObject = { 
+        firstName: "John",
+        lastName: "Smith"
+    };
+
     var testObject = { 
         name: { 
             firstName: "John",
@@ -68,6 +73,7 @@ var utils = (function() {
         logObjectChangeEvent: logObjectChangeEvent,
         prettyPrint: prettyPrint,
         testObject: testObject,
+        simpleObject: simpleObject,
         prettyPrintSource: prettyPrintSource
     };
 
