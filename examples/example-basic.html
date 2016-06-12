@@ -23,6 +23,8 @@
         <div class="col-md-4">
             <h4>Source</h4>
             <div id="source"></div>
+            <h4>Events</h4>
+            <div id="events"></div>
         </div>
         <div class="col-md-7">
             <h4>Form</h4>
@@ -32,15 +34,16 @@
 
     <script>
         $(function() { 
-            utils.prettyPrintSource(utils.testObject, "source");
+
             var form = $("#form").medea(utils.testObject);
-            form.on("medea.cancel", function() { 
-                //$("#form").hide();
-            });
-            form.on("medea.submit", function(e, obj) { 
-                utils.prettyPrintSource(obj, "source");
-                //$("#form").hide();
-            });
+
+            form.on("medea.add",    utils.logEvent("events"));
+            form.on("medea.cancel", utils.logEvent("events"));
+            form.on("medea.toggle", utils.logEvent("events"));
+            form.on("medea.submit", utils.logObjectChangeEvent("source"));
+
+            utils.prettyPrintSource(utils.testObject, "source");
+
         });
     </script>
 
