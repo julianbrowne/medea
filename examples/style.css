@@ -2,3 +2,7 @@
 label.editable { 
     
 }
+
+.modal-dialog { 
+    width: 70%;
+}
