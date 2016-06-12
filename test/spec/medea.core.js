@@ -318,7 +318,7 @@ describe("Medea", function() {
             container.trigger("medea.add");
             var match = medeaHelper.matcher();
             expect($("form").length).toEqual(1);
-            expect(match.allInputs.length).toEqual(2);
+            expect(match.allInputs.length).toEqual(1);
             medeaHelper.removeTestContainer("test");
         });
 
