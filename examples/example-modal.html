@@ -41,11 +41,14 @@
             var obj = utils.simpleObject;
 
             $("#show-modal").on("click", function() { 
+
                 var form = $("#example").medea(obj, {modal: true});
-                form.on("medea.add",    utils.logEvent("events"));
-                form.on("medea.cancel", utils.logEvent("events"));
-                form.on("medea.toggle", utils.logEvent("events"));
-                form.on("medea.submit", utils.logObjectChangeEvent("source"));
+
+                form.one("medea.add",    utils.logEvent("events"));
+                form.one("medea.cancel", utils.logEvent("events"));
+                form.one("medea.toggle", utils.logEvent("events"));
+                form.one("medea.submit", utils.logObjectChangeEvent("source"));
+
             });
 
             utils.prettyPrintSource(obj, "source");
