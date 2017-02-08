@@ -172,6 +172,10 @@ describe("Medea", function() {
             medeaHelper.removeTestContainer("test");
         });
 
+    });
+
+    describe("Modals", function() { 
+
         it("should throw modalise dependecy errors", function() { 
             medeaHelper.addTestContainer("test");
             expect($("#test").length).toEqual(1);
