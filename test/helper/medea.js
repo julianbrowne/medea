@@ -9,6 +9,11 @@ var medeaHelper = {
         $("#"+id).remove();
     },
 
+    clearModals: function() { 
+        $(".modal").remove();
+        $(".modal-backdrop").remove();
+    },
+
     formLabel: function() {
         return $("div.form-group").find("label");
     },

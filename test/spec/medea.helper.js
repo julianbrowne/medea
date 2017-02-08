@@ -9,6 +9,14 @@ describe("Medea", function() {
             expect($("#test").length).toEqual(0);
         });
 
+        it("should clear bootstrap modals", function() { 
+            var modal = $("<div>").attr("class","modal");
+            $("body").append(modal);
+            expect($(".modal").length).toEqual(1);
+            medeaHelper.clearModals();
+            expect($(".modal").length).toEqual(0);
+        });
+
     });
 
 });

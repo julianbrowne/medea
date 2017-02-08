@@ -185,8 +185,9 @@ describe("Medea", function() {
             medeaHelper.addTestContainer("test");
             $("#test").medea({}, {modal: true});
             expect($("div.modal-dialog").length).toEqual(1);
-            //medeaHelper.removeTestContainer("test");
+            expect($("#test").length).toEqual(1);
             expect($("#medea-modal").length).toEqual(0);
+            medeaHelper.clearModals();
         });
 
     });
