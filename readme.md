@@ -32,7 +32,7 @@ For example:
 
 The target element will emit a submit event when the form is submitted with the OK button.
 
-    $(jquery-selector).on("submit", function(updated-json-object) { 
+    $(jquery-selector).on("medea.submit", function(updated-json-object) { 
         // do something with updated-json-object here ..
     });
 
