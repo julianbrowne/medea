@@ -18,7 +18,6 @@ describe("Medea", function() {
 
         it("should turn an empty object into an empty form", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({});
             expect($("#test form").length).toEqual(1);
             medeaHelper.removeTestContainer("test");
@@ -77,7 +76,6 @@ describe("Medea", function() {
 
         it("should make a number form", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({ num: 999 });
             expect(medeaHelper.formLabel().html()).toEqual("Num");
             expect(medeaHelper.formInput().attr("type")).toEqual("number");
@@ -88,7 +86,6 @@ describe("Medea", function() {
 
         it("should make a string form", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({ text: "abc" });
             expect(medeaHelper.formLabel().html()).toEqual("Text");
             expect(medeaHelper.formInput().attr("type")).toEqual("text");
@@ -99,7 +96,6 @@ describe("Medea", function() {
 
         it("should make a boolean form", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({ amIRight: true });
             expect(medeaHelper.formLabel().html()).toEqual("Am I Right");
             expect(medeaHelper.formInput().attr("type")).toEqual("checkbox");
@@ -110,7 +106,6 @@ describe("Medea", function() {
 
         it("should make an array form", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             var list = ["a","b","c"];
             $("#test").medea({list: list});
             expect(medeaHelper.formLabel().html()).toEqual("List[0]");
@@ -150,7 +145,6 @@ describe("Medea", function() {
 
         it("should handle multi-level form elements", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({ top: 10, level: { sub: "abc" } });
             var match = medeaHelper.matcher();
             // top level keys
@@ -166,7 +160,6 @@ describe("Medea", function() {
 
         it("should have add, cancel and ok buttons", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({});
             expect($("#test button").length).toEqual(3);
             medeaHelper.removeTestContainer("test");
@@ -178,7 +171,6 @@ describe("Medea", function() {
 
         it("should throw modalise dependecy errors", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             var spy = spyOn(console,"error");
             var savedModal = $.extend({}, { fn: jQuery.fn.modal });
             jQuery.fn.modal = undefined;
@@ -191,10 +183,9 @@ describe("Medea", function() {
 
         it("should modalise", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({}, {modal: true});
             expect($("div.modal-dialog").length).toEqual(1);
-            medeaHelper.removeTestContainer("test");
+            //medeaHelper.removeTestContainer("test");
             expect($("#medea-modal").length).toEqual(0);
         });
 
@@ -259,12 +250,10 @@ describe("Medea", function() {
 
         it("should respect 'buttons' option", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({});
             expect($("#test button").length).toEqual(3);
             medeaHelper.removeTestContainer("test");
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({}, {buttons: false});
             expect($("#test button").length).toEqual(0);
             medeaHelper.removeTestContainer("test");
@@ -272,7 +261,6 @@ describe("Medea", function() {
 
         it("should respect 'id' option", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({}, {id: "sumner"});
             expect($("#sumner").length).toEqual(1);
             medeaHelper.removeTestContainer("test");
@@ -280,7 +268,6 @@ describe("Medea", function() {
 
         it("should respect 'labelColumns' option", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({testValue: 10}, {labelColumns: 3});
             expect($("#sumner label").hasClass("col-sm-3")).toEqual(true);
             medeaHelper.removeTestContainer("test");
@@ -288,7 +275,6 @@ describe("Medea", function() {
 
         it("should respect 'inputColumns' option", function() { 
             medeaHelper.addTestContainer("test");
-            expect($("#test").length).toEqual(1);
             $("#test").medea({testValue: 10}, {inputColumns: 8});
             expect($("#sumner div.form-group div").hasClass("col-sm-8")).toEqual(true);
             medeaHelper.removeTestContainer("test");
@@ -297,7 +283,6 @@ describe("Medea", function() {
         it("should respect 'noForm' option", function() { 
             medeaHelper.addTestContainer("test");
             $("#test").append($("<form>"));
-            expect($("#test").length).toEqual(1);
             $("#test form").medea({testValue: 10}, {noForm: true});
             expect($("form").length).toEqual(1);
             medeaHelper.removeTestContainer("test");
