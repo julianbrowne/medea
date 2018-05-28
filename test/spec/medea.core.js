@@ -133,7 +133,7 @@ describe("Medea", function() {
             expect(buttons.length).toEqual(3);
 
             // toggle to a checkbox
-            var toggleButton=$("span.glyphicon-option-vertical");
+            var toggleButton=$("span.glyphicon-refresh");
             toggleButton.trigger("click");
             var oldInputField = $("#test input.form-control[type=text]");
             var newInputField = $("#test input.form-control[type=checkbox]");
@@ -269,14 +269,26 @@ describe("Medea", function() {
 
         it("should respect 'labelColumns' option", function() { 
             medeaHelper.addTestContainer("test");
-            $("#test").medea({testValue: 10}, {labelColumns: 3});
+            $("#test").medea({ 
+                testValue: 10
+            }, 
+            { 
+                id: "sumner",
+                labelColumns: 3
+            });
             expect($("#sumner label").hasClass("col-sm-3")).toEqual(true);
             medeaHelper.removeTestContainer("test");
         });
 
         it("should respect 'inputColumns' option", function() { 
             medeaHelper.addTestContainer("test");
-            $("#test").medea({testValue: 10}, {inputColumns: 8});
+            $("#test").medea({
+                testValue: 10
+            },
+            {
+                id: "sumner",
+                inputColumns: 8
+            });
             expect($("#sumner div.form-group div").hasClass("col-sm-8")).toEqual(true);
             medeaHelper.removeTestContainer("test");
         });
