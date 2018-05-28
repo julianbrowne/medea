@@ -13,7 +13,7 @@ Or fetch the zip file from ```https://github.com/julianbrowne/medea/archive/mast
 
 ## Usage
 
-Check out the bundled [examples](examples/index.html).
+Check out the bundled [examples](http://julianbrowne.github.io/medea/examples/index.html).
 
 Make sure you have jQuery and Medea included in your app:
 
