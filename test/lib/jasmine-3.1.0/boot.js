@@ -49,11 +49,24 @@
     getWindowLocation: function() { return window.location; }
   });
 
-  var catchingExceptions = queryString.getParam("catch");
-  env.catchExceptions(typeof catchingExceptions === "undefined" ? true : catchingExceptions);
+  var filterSpecs = !!queryString.getParam("spec");
+
+  var stoppingOnSpecFailure = queryString.getParam("failFast");
+  env.stopOnSpecFailure(stoppingOnSpecFailure);
 
   var throwingExpectationFailures = queryString.getParam("throwFailures");
   env.throwOnExpectationFailure(throwingExpectationFailures);
+
+  var random = queryString.getParam("random");
+
+  if (random !== undefined && random !== "") {
+    env.randomizeTests(random);
+  }
+
+  var seed = queryString.getParam("seed");
+  if (seed) {
+    env.seed(seed);
+  }
 
   /**
    * ## Reporters
@@ -61,13 +74,13 @@
    */
   var htmlReporter = new jasmine.HtmlReporter({
     env: env,
-    onRaiseExceptionsClick: function() { queryString.navigateWithNewParam("catch", !env.catchingExceptions()); },
-    onThrowExpectationsClick: function() { queryString.navigateWithNewParam("throwFailures", !env.throwingExpectationFailures()); },
+    navigateWithNewParam: function(key, value) { return queryString.navigateWithNewParam(key, value); },
     addToExistingQueryString: function(key, value) { return queryString.fullStringWithNewParam(key, value); },
     getContainer: function() { return document.body; },
     createElement: function() { return document.createElement.apply(document, arguments); },
     createTextNode: function() { return document.createTextNode.apply(document, arguments); },
-    timer: new jasmine.Timer()
+    timer: new jasmine.Timer(),
+    filterSpecs: filterSpecs
   });
 
   /**
